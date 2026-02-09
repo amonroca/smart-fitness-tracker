@@ -1,5 +1,5 @@
 const Nutrition = require('../models/Nutrition');
-const { getDb, connectDb } = require('../data/database');
+const { getDb, getConnectionState } = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 async function getNutritionByUserId(req, res, next) {
@@ -23,9 +23,10 @@ async function getNutritionByUserId(req, res, next) {
 
 async function createNutritionEntry(req, res, next) {
     try {
-        const nutrition = {
+        const nutritionData = {
             userId: new ObjectId(req.body.userId),
             mealType: req.body.mealType,
+            foodItems: req.body.foodItems,
             calories: req.body.calories,
             protein: req.body.protein,
             carbs: req.body.carbs,
@@ -33,7 +34,7 @@ async function createNutritionEntry(req, res, next) {
             date: new Date(req.body.date)
         };
         if (getConnectionState()) {
-            const result = await Nutrition.insertNutrition(getDb(), nutrition);
+            const result = await Nutrition.insertNutrition(getDb(), nutritionData);
             res.setHeader('Content-Type', 'application/json');
             return res.status(201).json({ message: 'Nutrition entry created successfully.', nutritionId: result._id });
         } else {
@@ -48,6 +49,7 @@ async function editNutritionEntry(req, res, next) {
     try {
         const nutritionData = {};
         if (req.body.mealType) nutritionData.mealType = req.body.mealType;
+        if (req.body.foodItems) nutritionData.foodItems = req.body.foodItems;
         if (req.body.calories) nutritionData.calories = req.body.calories;
         if (req.body.protein) nutritionData.protein = req.body.protein;
         if (req.body.carbs) nutritionData.carbs = req.body.carbs;
@@ -55,7 +57,7 @@ async function editNutritionEntry(req, res, next) {
         if (req.body.date) nutritionData.date = new Date(req.body.date);
         if (getConnectionState()) {
             const nutritionId = new ObjectId(req.params.nutritionId);
-            const updatedNutrition = await Nutrition.updateNutrition(getDb(), nutritionId, nutritionData);
+            const updatedNutrition = await Nutrition.updateNutritionEntry(getDb(), nutritionId, nutritionData);
             if (updatedNutrition && updatedNutrition.matchedCount > 0) {
                 res.setHeader('Content-Type', 'application/json');
                 return res.status(200).json({ message: 'Nutrition entry updated successfully.' });
@@ -74,7 +76,7 @@ async function removeNutritionEntry(req, res, next) {
     try {
         if (getConnectionState()) {
             const nutritionId = new ObjectId(req.params.nutritionId);
-            const result = await Nutrition.deleteNutrition(getDb(), nutritionId);
+            const result = await Nutrition.deleteNutritionEntry(getDb(), nutritionId);
             if (result.deletedCount > 0) {
                 res.setHeader('Content-Type', 'application/json');
                 return res.status(200).json({ message: 'Nutrition entry removed successfully.' });

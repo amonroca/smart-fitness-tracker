@@ -53,8 +53,8 @@ async function editWorkout(req, res, next) {
         if (req.body.caloriesBurned) updatedFields.caloriesBurned = req.body.caloriesBurned;
         if (req.body.notes) updatedFields.notes = req.body.notes;
         if (getConnectionState()) {
-            const modifiedCount = await Workouts.updateWorkout(getDb(), workoutId, updatedFields);
-            if (modifiedCount > 0) {
+            const updatedWorkout = await Workouts.updateWorkout(getDb(), workoutId, updatedFields);
+            if (updatedWorkout && updatedWorkout.modifiedCount > 0) {
                 res.setHeader('Content-Type', 'application/json');
                 return res.status(200).json({ message: 'Workout updated successfully.' });
             }
