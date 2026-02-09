@@ -148,6 +148,8 @@ router.post('/', /*
     }
     */ createNutritionEntryValidation, validateRequest, createNutritionEntry);
 router.put('/:nutritionId', /*
+    #swagger.tags = ['Nutrition']
+    #swagger.description = 'Endpoint to update an existing nutrition entry.'
     #swagger.parameters['Nutrition'] = {
         in: 'body',
         description: 'Updated nutrition entry information',
