@@ -62,6 +62,21 @@ curl -X POST http://localhost:8080/auth/clients \
   npm run swagger
   ```
 
+## Testing
+
+- Run all tests:
+  ```bash
+  npm test
+  ```
+- Run unit route tests:
+  ```bash
+  npm run test:unit
+  ```
+- Run integration tests:
+  ```bash
+  npm run test:integration
+  ```
+
 ## Environment variables
 
 | Name                      | Required | Description                                                      |

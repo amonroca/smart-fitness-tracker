@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:unit": "jest --testPathPatterns=\\.routes\\.test\\.js$",
+    "test:integration": "jest --testPathPatterns=\\.integration\\.test\\.js$",
     "swagger": "node swagger.js"
   },
   "repository": {
