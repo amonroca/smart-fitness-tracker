@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const { getNutritionByUserId, createNutritionEntry, editNutritionEntry, removeNutritionEntry } = require('../controllers/nutritionController');
 const { createNutritionEntryValidation, editNutritionEntryValidation, idParamValidator, validateRequest } = require('../middleware/validate');
+const { isAuthenticated } = require('../middleware/authenticate');
+
+// All routes in this file require authentication
+router.use(isAuthenticated);
 
 router.get('/user/:userId', /*
     #swagger.tags = ['Nutrition']

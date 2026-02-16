@@ -88,6 +88,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "No workouts found for this user.",
             "content": {
@@ -216,6 +219,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal server error.",
             "content": {
@@ -329,6 +335,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Workout not found.",
             "content": {
@@ -411,6 +420,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Workout not found.",
@@ -518,6 +530,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "No goals found for this user.",
@@ -647,6 +662,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal server error.",
             "content": {
@@ -756,6 +774,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Goal not found.",
             "content": {
@@ -838,6 +859,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Goal not found.",
@@ -945,6 +969,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "User not found.",
@@ -1090,6 +1117,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "User not found.",
             "content": {
@@ -1172,6 +1202,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "User not found.",
@@ -1315,6 +1348,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal server error.",
             "content": {
@@ -1415,6 +1451,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "No nutrition entries found for this user.",
@@ -1558,6 +1597,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal server error.",
             "content": {
@@ -1685,6 +1727,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Nutrition entry not found.",
             "content": {
@@ -1768,6 +1813,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Nutrition entry not found.",
             "content": {
@@ -1812,6 +1860,114 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/auth/clients": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Registers a GitHub OAuth client for use with this API.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client",
+            "in": "body",
+            "description": "OAuth client info",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "My App"
+                },
+                "clientId": {
+                  "type": "string",
+                  "example": "github_client_id"
+                },
+                "clientSecret": {
+                  "type": "string",
+                  "example": "github_client_secret"
+                },
+                "callbackUrl": {
+                  "type": "string",
+                  "example": "https://your-api.com/auth/github/callback"
+                }
+              }
+            }
+          },
+          {
+            "name": "x-admin-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Admin token for OAuth client registration"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OAuth client registered successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "OAuth client already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Initiates GitHub OAuth authentication flow using a registered client.",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "Registered OAuth clientId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to GitHub for authentication"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Logs out the current user and destroys the session.",
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
+          },
+          "500": {
+            "description": "Logout failed"
           }
         }
       }

@@ -1,26 +1,11 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger-output.json');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+// Import required modules
 const { connectDb, disconnectDb } = require('./data/database');
+const { createApp } = require('./app');
 
-const app = express();
-dotenv.config();
-
-app.use(bodyParser.json());
-
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] }));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+const app = createApp();
 const port = process.env.PORT || 8080;
 
-app.use('/', require('./routes'));
-
+// Start the server with retry logic for database connection
 let server;
 
 async function startWithRetry(maxRetries = 3, baseDelayMs = 500) {
@@ -46,6 +31,7 @@ async function startWithRetry(maxRetries = 3, baseDelayMs = 500) {
   }
 }
 
+// Graceful shutdown handling
 async function shutdown(signal) {
   try {
     console.log(`\n${signal} received. Shutting down gracefully...`);

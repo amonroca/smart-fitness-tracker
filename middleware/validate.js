@@ -1,7 +1,7 @@
 const { checkSchema, validationResult, param } = require('express-validator');
 const { ObjectId } = require('mongodb');
 
-// Factory para validar parâmetros de rota que são ObjectId
+// Factory para validar parametros de rota que sao ObjectId
 const idParamValidator = (paramName) => [
     param(paramName)
         .custom((value) => ObjectId.isValid(value))
@@ -319,6 +319,35 @@ const editGoalSchema = {
     }
 };
 
+// OAuth client registration schema
+const registerOAuthClientSchema = {
+    name: {
+        in: ['body'],
+        optional: true,
+        isString: true,
+        notEmpty: true,
+        errorMessage: 'Name must be a string.'
+    },
+    clientId: {
+        in: ['body'],
+        isString: true,
+        notEmpty: true,
+        errorMessage: 'clientId is required and must be a string.'
+    },
+    clientSecret: {
+        in: ['body'],
+        isString: true,
+        notEmpty: true,
+        errorMessage: 'clientSecret is required and must be a string.'
+    },
+    callbackUrl: {
+        in: ['body'],
+        //isURL: true,
+        notEmpty: true,
+        errorMessage: 'callbackUrl is required and must be a valid URL.'
+    }
+};
+
 // Validation middleware
 function validateRequest(req, res, next) {
     const errors = validationResult(req);
@@ -337,6 +366,7 @@ const createWorkoutValidation = checkSchema(createWorkoutSchema);
 const editWorkoutValidation = checkSchema(editWorkoutSchema);
 const createGoalValidation = checkSchema(createGoalSchema);
 const editGoalValidation = checkSchema(editGoalSchema);
+const registerOAuthClientValidation = checkSchema(registerOAuthClientSchema);
 
 module.exports = {
     createUserValidation,
@@ -347,6 +377,7 @@ module.exports = {
     editWorkoutValidation,
     createGoalValidation,
     editGoalValidation,
+    registerOAuthClientValidation,
     idParamValidator,
     validateRequest
 };

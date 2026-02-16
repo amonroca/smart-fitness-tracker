@@ -23,8 +23,8 @@ const doc = {
             description: 'Operations related to workouts'
         }
     ],
-    //host: 'localhost:8080',
-    //schemes: ['http']
+    // host: 'localhost:8080',
+    // schemes: ['http']
     host: 'smart-fitness-tracker-knr2.onrender.com',
     schemes: ['https']
 };

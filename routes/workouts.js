@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const { getWorkoutsByUserId, createWorkout, editWorkout, removeWorkout } = require('../controllers/workoutsController');
 const { createWorkoutValidation, editWorkoutValidation, idParamValidator, validateRequest } = require('../middleware/validate');
+const { isAuthenticated } = require('../middleware/authenticate');
+
+// All routes in this file require authentication
+router.use(isAuthenticated);
 
 router.get('/user/:userId', /*
     #swagger.tags = ['Workouts']
