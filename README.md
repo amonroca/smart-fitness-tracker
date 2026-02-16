@@ -75,33 +75,37 @@ curl -X POST http://localhost:8080/auth/clients \
 
 Use the commands below to generate secure values for the secrets:
 
-# Admin token
+### Admin token
 
+```
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
 
-# 32-byte base64 key for OAUTH_CLIENT_SECRET_KEY
+### OAuth client secret key
 
+```
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
 
-````
+### MongoDB connection string
 
 Example MongoDB connection string:
 
-```text
+```
 mongodb+srv://<username>:<password>@cluster0.mongodb.net/smart-fitness-tracker?retryWrites=true&w=majority
-````
+```
 
-## Production
+## Production address
 
 https://smart-fitness-tracker-knr2.onrender.com
 
 ## Testing on Production Environment
 
-# Prod Admin Token
+### Prod Admin Token
 
 - JLhv7TA5L57oFhXpDvXV1tLiz72o3H6WpS3kk1C3Kv8=
 
-# Prod Client IDs
+### Prod Client IDs
 
 You can use the Prod Admin Token to register your own GitHub OAuth apps or use one of the following client ids:
 
