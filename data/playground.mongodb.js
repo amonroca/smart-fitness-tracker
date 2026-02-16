@@ -18,6 +18,7 @@ const userIds = [
 	new ObjectId(),
 	new ObjectId(),
 	new ObjectId(),
+	new ObjectId(),
 	new ObjectId()
 ];
 
@@ -61,6 +62,16 @@ db.users.insertMany([
 		height: 182,
 		weight: 85,
 		createdAt: '2024-02-10T11:45:00Z'
+	},
+	{
+		_id: userIds[4],
+		name: 'Eva Lima',
+		email: 'eva.lima@example.com',
+		age: 30,
+		gender: 'Female',
+		height: 168,
+		weight: 65,
+		createdAt: '2024-02-15T10:30:00Z'
 	}
 ]);
 
@@ -100,6 +111,15 @@ db.workouts.insertMany([
 		duration: 40,
 		caloriesBurned: 180,
 		notes: 'Flexibility session'
+	},
+	{
+		_id: new ObjectId(),
+		userId: userIds[4],
+		date: new Date('2024-03-05T07:00:00Z'),
+		type: 'Swimming',
+		duration: 30,
+		caloriesBurned: 250,
+		notes: 'Morning swim'
 	}
 ]);
 
@@ -138,6 +158,15 @@ db.goals.insertMany([
 		targetValue: 30,
 		currentValue: 12,
 		deadline: new Date('2024-05-31T23:59:59Z'),
+		status: 'In Progress'
+	},
+	{
+		_id: new ObjectId(),
+		userId: userIds[4],
+		goalType: 'Flexibility',
+		targetValue: 15,
+		currentValue: 5,
+		deadline: new Date('2024-09-30T23:59:59Z'),
 		status: 'In Progress'
 	}
 ]);
@@ -186,5 +215,16 @@ db.nutrition.insertMany([
 		carbs: 50,
 		fat: 16,
 		date: new Date('2024-03-01T20:00:00Z')
+	},
+	{
+		_id: new ObjectId(),
+		userId: userIds[4],
+		mealType: 'Breakfast',
+		foodItems: ['Eggs', 'Toast', 'Avocado'],
+		calories: 400,
+		protein: 20,
+		carbs: 30,
+		fat: 18,
+		date: new Date('2024-03-01T08:00:00Z')
 	}
 ]);
